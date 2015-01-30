@@ -1,5 +1,4 @@
 assert = require("assert")
-socket = require('socket.io-client')('http://localhost:3000')
 
 describe "#indexOf()", ->
   it "should return -1 when the value is not present", ->
