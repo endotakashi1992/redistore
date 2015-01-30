@@ -13,11 +13,3 @@ describe "#indexOf()", ->
       2
       3
     ].indexOf(0)
-  it "should be exist socket.io-client",->
-    assert.ok socket
-  it "should be connect",(done)->
-    socket.on 'connect',done
-  it "when emit,callback",(done)->
-    socket.on 'tweet:create',->
-      done()
-    socket.emit 'tweet:create',{msg:"ok?"}
