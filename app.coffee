@@ -1,4 +1,4 @@
-module.exports = (->
+module.exports = (resource)->
   redis = require('redis')
   REDIS = 
     PORT:process.env.REDIS_PORT_6379_TCP_PORT
@@ -9,11 +9,16 @@ module.exports = (->
 
   {
     set:(obj,cb)->
-      client.hmset 'user:admin',obj
-      client.hgetall 'user:admin',(e,data)->
-        cb e,data
+      client.hmset resource,obj,->
+        client.hgetall resource,(e,data)->
+          cb e,data
     get:(key,cb)->
       client.hgetall 'user:admin',(e,data)->
         cb e,data
+    push:(obj,cb)->
+      client.incr "KEY:#{resource}",(e,id)->
+        obj.id = id
+        key = "#{resource}:#{id}"
+        client.hmset key,obj,->
+          cb null,obj
   }
-)()
